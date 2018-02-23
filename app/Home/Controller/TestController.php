@@ -8,9 +8,7 @@ class TestController extends Controller
 {
     public function index()
     {
-
         $this->assign('msg', 'Hello from action');
-
-        $this->view(APP.'/Home/View/test.php');
+        $this->view('test');
     }
 }
