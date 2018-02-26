@@ -11,4 +11,14 @@ class TestController extends Controller
         $this->assign('msg', 'Hello from action');
         $this->view('test');
     }
+
+    public function test()
+    {
+        echo 'hello test';
+    }
+
+    public function test2()
+    {
+        echo 'hello test2';
+    }
 }

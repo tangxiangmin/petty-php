@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Txm
- * Date: 2018/2/23
- * Time: 18:57
- */
+
 use Philo\Blade\Blade;
 
-class DIY
+class DIY extends \Core\BasePetty
 {
+    // 在这里重写视图加载的方法
     public static function loadView($file)
     {
         $views = ROOT . '/views';
