@@ -3,6 +3,8 @@
 namespace Core\Lib;
 
 
+use App\Provider;
+
 class Controller
 {
     private $assignArr = [];
@@ -16,7 +18,7 @@ class Controller
     {
         try {
             extract($this->assignArr);
-            \DIY::loadView($file);
+            Provider::loadView($file);
         } catch (\Exception $e) {
             var_dump($e->getMessage());
         }

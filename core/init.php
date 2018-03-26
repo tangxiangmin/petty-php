@@ -2,7 +2,8 @@
 
 namespace Core;
 
-use Core\Lib\Route;
+use Core\Lib\Middleware;
+use Core\Lib\Route\Route;
 
 class Core
 {
@@ -10,26 +11,43 @@ class Core
     static public function run()
     {
         self::autoload();
-        self::parseRoute();
+
+        self::init();
     }
 
-    private static function parseRoute()
+    // 初始化
+    static function init()
     {
-        // 加载项目路由
-        // todo 添加可配置化的路由文件
+        $route = self::getRoute();
+
+        // 注册中间件
+        self::registerMiddleware($route->middleware);
+
+        Middleware::start(function ($request) use ($route) {
+            $ctrlName = $route->controller;
+            $action = $route->action;
+
+            try {
+                $ctrl = new $ctrlName();
+                $ctrl->$action($request);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
+            }
+        });
+    }
+
+    // 获取路由
+    private static function getRoute()
+    {
         include_once APP . '/route.php';
+        return Route::getRoute();
+    }
 
-        $url = Route::getRoute();
-
-        $ctrlName = $url['controller'];
-        $action = $url['action'];
-
-        try {
-            $ctrl = new $ctrlName();
-            $ctrl->$action();
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-        }
+    // 初始化中间件
+    private static function registerMiddleware(Array $alias = [])
+    {
+        include_once APP . '/middleware.php';
+        Middleware::batchInstall($alias);
     }
 
     // 实现自动加载类

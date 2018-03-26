@@ -1,8 +1,11 @@
 <?php
 
+namespace App;
+
+use Core\BasePetty;
 use Philo\Blade\Blade;
 
-class DIY extends \Core\BasePetty
+class Provider extends BasePetty
 {
     // 在这里重写视图加载的方法
     public static function loadView($file)

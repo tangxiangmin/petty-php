@@ -1,21 +1,27 @@
 <?php
 
-namespace Core\Lib;
+namespace Core\Lib\Route;
+
+
 class Route
 {
     public $group = '';
     public $ctrl = '';
     public $action = '';
 
+
     static $routes = [];
+
     static $prefix = '';
     static $namespace = '';
+    static $middleware = [];
 
     // 添加单条路由记录
     static function addRoute($url, $action)
     {
         $prefix = self::$prefix;
         $namespace = self::$namespace;
+        $middleware = self::$middleware;
 
         if ($prefix) {
             $url = $prefix . '/' . $url;
@@ -25,7 +31,11 @@ class Route
             $action = $namespace . '\\' . $action;
         }
 
-        self::$routes[$url] = $action;
+        if (is_callable($action)) {
+            self::$routes[$url] = $action;
+        } else {
+            self::$routes[$url] = new RouteItem($action, $middleware);
+        }
     }
 
     // 路由分组重置
@@ -42,6 +52,7 @@ class Route
         if ($url != '/') {
             $url = trim($url, '/');
         }
+
         $route = self::$routes[$url];
 
         // 如果是闭包，则执行
@@ -50,13 +61,7 @@ class Route
         }
 
         // 如果是路由，则加载相应控制器
-        if (is_string($route)) {
-            $server = explode('@', $route);
-            return array(
-                'controller' => $server[0],
-                'action'     => $server[1]
-            );
-        }
+        return $route;
     }
 
     /**

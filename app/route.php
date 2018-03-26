@@ -1,5 +1,5 @@
 <?php
-use \Core\Lib\Route;
+use \Core\Lib\Route\Route;
 
 // 回调函数
 Route::bind(['/', 'index'], function () {
@@ -10,8 +10,9 @@ Route::bind(['/', 'index'], function () {
 Route::bind('test', '\App\Home\Controller\TestController@index');
 
 Route::group([
-    'prefix'    => 'api',
-    'namespace' => '\App\Home\Controller'
+    'prefix'     => 'api',
+    'namespace'  => '\App\Home\Controller',
+    'middleware' => ['test']
 ], function () {
     Route::bind('test', 'TestController@test');
 });

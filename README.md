@@ -13,14 +13,14 @@ petty-php
 `Route::group($config, $cb)`
 * `prefix`路由前缀
 * `namespace`控制器命名空间
+* `middleware`路由中间件
 
 **TODO**
 
-* [ ] get、post等快捷注册方式
+* [x] get、post等快捷注册方式
 * [x] 路由分组
-* [ ] 路由中间件
+* [x] 路由中间件
 * [ ] 路由参数接口
-
 
 ## Controller
 Controller基类提供两个基本方法
@@ -34,5 +34,5 @@ Controller基类提供两个基本方法
 通过composer管理你喜欢的模板引擎，或者使用原始的PHP模板标签
 
 ## 自定义
-`/DIY类`中实现相关的接口方法，自定义相关的依赖库
+`App\Provider`类中中实现相关的接口方法，自定义相关的依赖库
 * `loadView`模板引擎
